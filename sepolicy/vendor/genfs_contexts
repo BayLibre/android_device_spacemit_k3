@@ -1,0 +1,12 @@
+# sysfs
+genfscon sysfs /devices/platform/soc/cac00000.gpu                          u:object_r:sysfs_gpu:s0
+genfscon sysfs /devices/virtual/drm                                        u:object_r:sysfs_gpu:s0
+genfscon sysfs /devices/platform/soc/c0340000.display-subsystem            u:object_r:sysfs_gpu:s0
+genfscon sysfs /devices/platform/soc/c0440000.display-subsystem            u:object_r:sysfs_gpu:s0
+genfscon sysfs /devices/platform/soc/d4011000.i2c/i2c-0/0-0025/wakeup      u:object_r:sysfs_wakeup:s0
+genfscon sysfs /class/power_supply                                         u:object_r:sysfs_batteryinfo:s0
+genfscon sysfs /class/thermal                                              u:object_r:sysfs_thermal:s0
+genfscon sysfs /devices/virtual/thermal                                    u:object_r:sysfs_thermal:s0
+
+# proc
+genfscon proc /sys/vm/swappiness                                           u:object_r:proc_dirty:s0

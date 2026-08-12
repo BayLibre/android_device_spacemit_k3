@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  External camera HAL configuration for the K3 Pico-ITX.
+  No <ignore> list — for pure USB/UVC cameras, the HAL scans every
+  /dev/video* and VIDIOC_QUERYCAP silently filters out nodes that
+  lack V4L2_CAP_VIDEO_CAPTURE (e.g. UVC 1.5 metadata-only interface).
+-->
+<ExternalCamera>
+    <Provider>
+    </Provider>
+    <Device>
+        <MaxJpegBufferSize bytes="3145728"/>
+        <NumVideoBuffers count="4"/>
+        <NumStillBuffers count="2"/>
+        <FpsList>
+            <Limit width="640" height="480" fpsBound="30.0"/>
+            <Limit width="1280" height="720" fpsBound="30.0"/>
+            <Limit width="1920" height="1080" fpsBound="30.0"/>
+        </FpsList>
+    </Device>
+</ExternalCamera>

@@ -1,0 +1,16 @@
+modalias_handling enabled
+
+/dev/dri/*                0666   system     graphics
+/dev/pvr_sync             0660   system     graphics
+/dev/dma_heap/system      0666   system     graphics
+/dev/dma_heap/linux,cma   0666   system     graphics
+/dev/ttyS*                0660   root       system
+/dev/i2c-*                0660   root       i2c
+
+# Storage: for factory reset protection feature
+/dev/block/by-name/frp   0660   system     system
+
+# multimedia: codec2 and camera
+/dev/video*               0660   media     camera
+/dev/media*               0660   media     camera
+/dev/v4l-subdev*          0660   media     camera

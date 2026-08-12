@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- SpacemiT K1 BananaPi F3 Audio Policy Configuration -->
+<audioPolicyConfiguration version="7.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <globalConfiguration speaker_drc_enabled="true"/>
+
+    <modules>
+        <!-- Primary Audio HAL (AIDL) -->
+        <xi:include href="primary_audio_policy_configuration.xml"/>
+
+        <!-- Bluetooth Audio HAL (AIDL) -->
+        <xi:include href="bluetooth_audio_policy_configuration_7_0.xml"/>
+
+        <!-- Remote Submix -->
+        <xi:include href="r_submix_audio_policy_configuration.xml"/>
+    </modules>
+
+    <!-- Volume section -->
+    <xi:include href="audio_policy_volumes.xml"/>
+    <xi:include href="default_volume_tables.xml"/>
+</audioPolicyConfiguration>

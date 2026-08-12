@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 The Android Open Source Project
+     SPDX-License-Identifier: Apache-2.0 -->
+<manifest version="1.0" type="device" target-level="202604">
+    <!-- External USB camera HAL (AIDL) -->
+    <hal format="aidl">
+        <name>android.hardware.camera.provider</name>
+        <version>1</version>
+        <fqname>ICameraProvider/external/0</fqname>
+    </hal>
+</manifest>

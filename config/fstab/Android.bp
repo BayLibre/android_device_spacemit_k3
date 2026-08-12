@@ -1,0 +1,26 @@
+// Copyright (C) 2026 The Android Open Source Project
+// SPDX-License-Identifier: Apache-2.0
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+genrule {
+    name: "gen_fstab_k3",
+    srcs: ["fstab.in"],
+    out: ["fstab.k3"],
+    // Storage = UFS (no eMMC). The fstab resolves partitions via the generic,
+    // bus-agnostic /dev/block/by-name/* symlinks (ueventd creates these from the
+    // GPT PARTLABEL on the UFS user LU), so no platform-path templating is needed.
+    // First-stage device enumeration is steered by androidboot.boot_devices
+    // (soc/c0e00000.ufshc) in BoardConfig.mk. Genrule kept (not a plain
+    // prebuilt_etc src) so TARGET_RECOVERY_FSTAB_GENRULE=gen_fstab_k3 resolves.
+    cmd: "cp $(in) $(out)",
+}
+
+prebuilt_etc {
+    name: "fstab.k3",
+    src: ":gen_fstab_k3",
+    vendor: true,
+    vendor_ramdisk_available: true,
+}

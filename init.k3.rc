@@ -1,0 +1,28 @@
+on early-init
+    mount debugfs debugfs /sys/kernel/debug mode=0755
+
+on init
+    symlink /sdcard /storage/sdcard0
+
+on fs
+    mount_all /vendor/etc/fstab.k3 --early
+
+on late-fs
+    mount_all /vendor/etc/fstab.k3 --late
+
+on boot
+    chown system system /sys/class/backlight/backlight/brightness
+    chmod 0664 /sys/class/backlight/backlight/brightness
+
+on zygote-start
+    # wpa_supplicant copies its runtime config out of
+    # /vendor/etc/wifi/wpa_supplicant.conf on first start (ensureConfigFileExists
+    # in wpa_supplicant/aidl/supplicant.cpp, vendor template resolved as
+    # "/vendor" + "/etc/wifi/..."), but it cannot create the directory to put it
+    # in: android.hardware.wifi.supplicant-service.rc only passes -O for the
+    # socket dir and has no mkdir of its own. Without these three, on a freshly
+    # wiped /data, ISupplicantStaIface.addIface fails with "Conf file does not
+    # exist" and WiFi never leaves the enabling state.
+    mkdir /data/vendor/wifi 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
