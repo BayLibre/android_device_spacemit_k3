@@ -53,11 +53,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     device/spacemit/k3/preloaded-classes:system/etc/preloaded-classes
 
-# Audio policy config. K3 has no on-board audio codec (DP-audio is disabled), so
-# ship a generic "primary" module (Speaker/Mic stereo, backed by the stub audio
-# HAL) plus the standard AIDL audio_policy_configuration. Without a primary
-# module the generic audio HAL exposes no IModule/default, AudioFlinger dies in a
-# loop (AudioService.onAudioServerDied) and boot stalls at StartAudioService.
+# On-board speaker audio: the ES8326 codec on the secure TWSI3 bus, which ALSA
+# enumerates as card "sndes8326". Select it by name -- card numbering is not
+# stable, a USB webcam readily takes index 0 -- and keep the index only as a
+# fallback for when the name lookup fails.
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.audio.primary.card_name=sndes8326 \
+    ro.vendor.audio.primary.card=1 \
+    ro.vendor.audio.primary.device=0
+
+# Audio policy config. The primary module must exist at all costs: without it
+# the audio HAL exposes no IModule/default, AudioFlinger dies in a loop
+# (AudioService.onAudioServerDied) and boot stalls at StartAudioService.
 PRODUCT_COPY_FILES += \
     device/spacemit/k3/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     device/spacemit/k3/audio/primary_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/primary_audio_policy_configuration.xml
