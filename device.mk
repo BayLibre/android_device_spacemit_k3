@@ -62,6 +62,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.audio.primary.card=1 \
     ro.vendor.audio.primary.device=0
 
+# Audio mixer controls (Pico-ITX / ES8326 codec), overriding the generic file
+# from hardware/generic/audio whose control names do not exist on this codec.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/mixer_controls.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_controls.xml
+
 # Audio policy config. The primary module must exist at all costs: without it
 # the audio HAL exposes no IModule/default, AudioFlinger dies in a loop
 # (AudioService.onAudioServerDied) and boot stalls at StartAudioService.

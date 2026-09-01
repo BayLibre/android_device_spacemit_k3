@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mixer controls configuration for the SpacemiT K3 Pico-ITX (ES8326 codec)
+     Maps ES8326 ALSA controls to BayLibre Audio HAL functions.
+     The HAL searches for controls by name in order; first match is used.
+
+     Speaker comes before headphone here: this board declares a Speaker output
+     and the codec has HPVol SPKVol Switch routing SPKVOL to SPKL+SPKR. The K1
+     lists them the other way round because it has a jack.
+
+     No MASTER_SWITCH entry: the ES8326 exposes no playback mute among its
+     controls, so muting stays in software.
+-->
+<mixerControls>
+    <!-- Master DAC volume (overall output level, both channels) -->
+    <control function="MASTER_VOLUME" type="int">
+        <name>DAC Playback Volume</name>
+    </control>
+
+    <!-- Hardware volume (per-device: speaker then headphone fallback) -->
+    <control function="HW_VOLUME" type="int">
+        <name>SPKL Playback Volume</name>
+        <name>HPL Playback Volume</name>
+    </control>
+
+    <!-- Microphone mute via ALC switch -->
+    <control function="MIC_SWITCH" type="bool">
+        <name>ALC Capture Switch</name>
+    </control>
+
+    <!-- Microphone gain (ADC capture volume) -->
+    <control function="MIC_GAIN" type="int">
+        <name>ADC Capture Volume</name>
+    </control>
+</mixerControls>
