@@ -44,6 +44,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.protected_contents=false \
     config.disable_renderscript=true
 
+# Codec2 over the AIDL HAL: the default ApexCodecs path only works in system
+# processes, so apps get no software decoder at all (mirrors the K1).
+PRODUCT_PROPERTY_OVERRIDES += \
+    media.c2.hal.selection=aidl \
+    debug.stagefright.c2inputsurface=-1
+
 # Codec listing reaches Mesa, which needs riscv_hwprobe; without this
 # mediaswcodec dies on SIGSYS.
 PRODUCT_COPY_FILES += \
