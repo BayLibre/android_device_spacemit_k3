@@ -60,12 +60,16 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.audio.primary.card_name=sndes8326 \
     ro.vendor.audio.primary.card=1 \
-    ro.vendor.audio.primary.device=0
+    ro.vendor.audio.primary.device=0 \
+    ro.vendor.audio.mixer.config=/vendor/etc/mixer_controls_k3.xml
 
-# Audio mixer controls (Pico-ITX / ES8326 codec), overriding the generic file
-# from hardware/generic/audio whose control names do not exist on this codec.
+# Audio mixer controls (Pico-ITX / ES8326 codec). Installed under a board
+# specific name and selected through ro.vendor.audio.mixer.config: device-common.mk
+# already copies the generic file to etc/mixer_controls.xml, and PRODUCT_COPY_FILES
+# keeps the first entry for a destination, so overriding it in place is silently
+# dropped.
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/mixer_controls.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_controls.xml
+    $(LOCAL_PATH)/audio/mixer_controls.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_controls_k3.xml
 
 # Audio policy config. The primary module must exist at all costs: without it
 # the audio HAL exposes no IModule/default, AudioFlinger dies in a loop
