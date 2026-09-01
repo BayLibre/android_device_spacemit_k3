@@ -1,0 +1,18 @@
+# SpaceMiT K3 vendor seccomp policy extension for media.swcodec.
+# These syscalls are needed by Mesa/Zink GPU initialization triggered via
+# AHardwareBuffer_isSupported during Codec2 component listing (C2SoftApvDec).
+# Reference: device/ti/am62x/am62p/android.hardware.media.c2-extended-seccomp_policy
+epoll_create1: 1
+epoll_ctl: 1
+epoll_pwait: 1
+eventfd2: 1
+getcwd: 1
+listen: 1
+pselect6: 1
+sched_getaffinity: 1
+setsockopt: 1
+sysinfo: 1
+# Mesa upstream u_cpu_detect.c calls syscall(__NR_riscv_hwprobe = 258) to
+# query RISC-V HW features at runtime (instead of parsing /proc/cpuinfo).
+# Without this, _util_cpu_detect_once crashes mediaswcodec via SIGSYS.
+riscv_hwprobe: 1

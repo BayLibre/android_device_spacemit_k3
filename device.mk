@@ -44,6 +44,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.protected_contents=false \
     config.disable_renderscript=true
 
+# Codec listing reaches Mesa, which needs riscv_hwprobe; without this
+# mediaswcodec dies on SIGSYS.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/seccomp_policy/mediaswcodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaswcodec.policy
+
 # Drop android.renderscript.* from the Zygote preload list. RenderScript is
 # deprecated (API 31) and librs_jni.so is not built on RISC-V, so preloading
 # android.renderscript.Element throws a fatal RSRuntimeException in
