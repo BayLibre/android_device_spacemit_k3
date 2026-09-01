@@ -39,6 +39,13 @@ TARGET_ARCH_VARIANT := x100
 # Console verbosity: default loglevel (debug flags keep_bootcon/ignore_loglevel/
 # printk.devkmsg removed now that the freeze is root-caused).
 
+# Bring-up only: ttyS0 is IRQ-driven and does not flush during a panic, so an
+# oops prints nothing once the console has handed over. Keeping the polling
+# earlycon registered lets console_flush_on_panic() get the backtrace out. The
+# cost is every line appearing twice, both consoles driving the same UART.
+# Drop this once the K3 boots without panicking.
+BOARD_KERNEL_CMDLINE += keep_bootcon
+
 # Kernel — the SHARED common K1/K3 kernel; the K3 board DTB is k3-pico-itx.dtb
 TARGET_KERNEL_USE ?= mainline
 KERNEL_MODULES_PATH := device/spacemit/kernel/$(TARGET_KERNEL_USE)
