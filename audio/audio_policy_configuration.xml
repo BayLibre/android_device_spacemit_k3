@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- SpacemiT K1 BananaPi F3 Audio Policy Configuration -->
+<!-- SpacemiT K3 Pico-ITX Audio Policy Configuration -->
 <audioPolicyConfiguration version="7.0" xmlns:xi="http://www.w3.org/2001/XInclude">
     <globalConfiguration speaker_drc_enabled="true"/>
 
@@ -9,6 +9,11 @@
 
         <!-- Bluetooth Audio HAL (AIDL) -->
         <xi:include href="bluetooth_audio_policy_configuration_7_0.xml"/>
+
+        <!-- USB Audio. The file already ships in vendor/etc via device-common.mk
+             but was never included here, so USB headsets and dock audio chips
+             were invisible to the framework even once ALSA had enumerated them. -->
+        <xi:include href="usb_audio_policy_configuration.xml"/>
 
         <!-- Remote Submix -->
         <xi:include href="r_submix_audio_policy_configuration.xml"/>
