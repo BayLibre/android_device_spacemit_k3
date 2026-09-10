@@ -67,16 +67,15 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(wildcard $(KERNEL_MODULES_PATH)/ramdisk
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := \
     $(KERNEL_MODULES_PATH)/ramdisk/spacemit-ccu.ko \
     $(wildcard $(KERNEL_MODULES_PATH)/ramdisk/ufs-spacemit.ko) \
-    $(filter-out %/spacemit-ccu.ko %/ufs-spacemit.ko %/spacemit-drm.ko %/spacemit_hdmi.ko,$(BOARD_VENDOR_RAMDISK_KERNEL_MODULES))
+    $(filter-out %/spacemit-ccu.ko %/ufs-spacemit.ko,$(BOARD_VENDOR_RAMDISK_KERNEL_MODULES))
 
-# The shared K1/K3 kernel builds both display stacks. On K3 the K1 DRM drivers
-# (spacemit-drm.ko + spacemit_hdmi.ko) must not load: they grab the "display"
-# class and the "spacemit-drm-drv" platform driver first, so the K3 driver
-# (spacemit_drm_k3 / inno-dp, in vendor_dlkm) aborts with -EEXIST. They are
-# excluded from the first-stage modules.load above rather than kernel
-# module_blacklist= (which makes first-stage finit_module fail -EPERM and reboots
-# init to the bootloader). Ramdisk-only modules never loaded first-stage are
-# never loaded at all, so the K3 display pipeline wins.
+# spacemit-drm.ko is now the upstream SpacemiT DRM driver (drivers/gpu/drm/
+# spacemit/) and spacemit-inno-dp.ko its DP/eDP bridge, so both MUST load
+# first-stage -- they are the display. The old filter-out kept them out because
+# that name used to mean the K1 vendor stack, which grabbed the
+# "spacemit-drm-drv" platform driver and made the separate K3 driver abort with
+# -EEXIST. There is only one display driver now, and a ramdisk module that is
+# never in the first-stage modules.load is never loaded at all.
 
 BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(KERNEL_MODULES_PATH)/vendor_dlkm/*.ko)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(BOARD_VENDOR_KERNEL_MODULES)

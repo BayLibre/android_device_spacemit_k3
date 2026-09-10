@@ -64,13 +64,22 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/spacemit/k3/preloaded-classes:system/etc/preloaded-classes
 
-# On-board speaker audio: the ES8326 codec on the secure TWSI3 bus, which ALSA
-# enumerates as card "sndes8326". Select it by name -- card numbering is not
-# stable, a USB webcam readily takes index 0 -- and keep the index only as a
-# fallback for when the name lookup fails.
+# Audio output goes over the USB-C DisplayPort, which ALSA enumerates as card
+# "K3DP1Audio": that is where a monitor's speakers are, and this board has no
+# speaker wired to the on-board ES8326. Select it by name -- card numbering is
+# not stable, a USB webcam readily takes index 0 -- and keep the index only as
+# a fallback for when the name lookup fails.
+#
+# Capture stays on the ES8326 (card 1), routed per-device port in
+# primary_audio_policy_configuration.xml: the DP card is playback-only.
+#
+# The mixer config below targets the ES8326 controls, none of which exist on
+# the DP card; the HAL only warns about the ones it cannot find and keeps
+# volume in software. It is kept so the file still matches if audio is ever
+# pointed back at the codec.
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.audio.primary.card_name=sndes8326 \
-    ro.vendor.audio.primary.card=1 \
+    ro.vendor.audio.primary.card_name=K3DP1Audio \
+    ro.vendor.audio.primary.card=2 \
     ro.vendor.audio.primary.device=0 \
     ro.vendor.audio.mixer.config=/vendor/etc/mixer_controls_k3.xml
 
