@@ -82,6 +82,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_controls.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_controls_k3.xml
 
+DEVICE_PACKAGE_OVERLAYS += device/spacemit/k3/overlay
+
 # Audio policy config. The primary module must exist at all costs: without it
 # the audio HAL exposes no IModule/default, AudioFlinger dies in a loop
 # (AudioService.onAudioServerDied) and boot stalls at StartAudioService.
