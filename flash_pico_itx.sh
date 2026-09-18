@@ -201,7 +201,7 @@ dfu_stage() {
     ${FASTBOOT} stage "${BL}/factory/FSBL.bin"
     ${FASTBOOT} continue
     info "BROM executing FSBL..."
-    sleep 5
+    sleep 7
 
     info "Step 2: Connecting to FSBL fastboot..."
     wait_for_device 60 "FSBL fastboot"
